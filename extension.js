@@ -44,12 +44,15 @@ class OnMessage {
 
     if (this.editor === null) {
       this.editorTitle = request.title;
-      tmp.file((err, path, fd, cleanupCallback) => {
+      tmp.file({
+        postfix: '.md'
+      }, (err, path, fd, cleanupCallback) => {
         this.cleanupCallback = cleanupCallback;
 
         workspace.openTextDocument(path)
         .then((textDocument) => {
           this.document = textDocument;
+
           window.showTextDocument(textDocument).then((editor) => {
             this.editor = editor;
             this.updateEditorText(request.text);
@@ -116,7 +119,7 @@ var activate = (context) => {
     return wsServer.listen(0);
   });
 
-  return this.httpStatusServer.listen(4001);
+  return this.httpStatusServer.listen(14001);
 };
 
 var deactivate = () => {
